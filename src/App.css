@@ -46,17 +46,17 @@
 }
 
 /* colorあとでまとめたい */
-.match {
+.correct {
   background-color: #6baa64;
   color:white;
 }
 
-.included {
+.present {
   background-color: #c9b458;
   color:white;
 }
 
-.nothing {
+.absent {
   background-color: rgba(145, 145, 145, 0.884);
   color:white;
 }

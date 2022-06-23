@@ -5,6 +5,7 @@ import "./App.css";
 
 function App() {
   const [currentGuess, setCurrentGuess] = useState("");
+  const [gusses, setGusses] = useState<string[]>([]);
 
   const onChar = (value: String) => {
     if (`${currentGuess}${value}`.length <= MAX_WORD_LENGTH) {
@@ -13,18 +14,22 @@ function App() {
   };
 
   const onEnter = () => {
-    
-  }
+    if (currentGuess.length === MAX_WORD_LENGTH) {
+      setGusses([...gusses, currentGuess]);
+      setCurrentGuess("");
+    }
+  };
 
   const onDelete = () => {
-    setCurrentGuess(currentGuess.slice(0, -1))
-  }
+    setCurrentGuess(currentGuess.slice(0, -1));
+  };
+
   return (
     <div className="App">
       <header className="App-header"></header>
 
       <div id="game">
-        <Keyboard onChar={onChar} onDelete={onDelete} onEnter={onEnter} />
+        <Keyboard onChar={onChar} onDelete={onDelete} onEnter={onEnter} gusses={gusses} />
       </div>
     </div>
   );
