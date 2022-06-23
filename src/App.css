@@ -1,0 +1,62 @@
+.game {
+  display: flex;
+
+  flex-direction: column;
+}
+
+.row {
+
+  display: flex;
+
+  margin: 0 auto 8px;
+  justify-content: center;
+}
+
+.board {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.board .row {
+  display: flex;
+  justify-content: center;
+}
+
+.tile {
+  height: 50px;
+  width: 50px;
+  border: solid 1px;
+  border-color: #dfdfdf;
+  margin: 5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f7f7f7bf;
+  font-size: 30px;
+}
+
+.key-button {
+  height: 50px;
+  margin: 0 5px 0;
+  border-radius: 4px;
+  flex-basis: 40px;
+  border: none;
+}
+
+/* colorあとでまとめたい */
+.match {
+  background-color: #6baa64;
+  color:white;
+}
+
+.included {
+  background-color: #c9b458;
+  color:white;
+}
+
+.nothing {
+  background-color: rgba(145, 145, 145, 0.884);
+  color:white;
+}
