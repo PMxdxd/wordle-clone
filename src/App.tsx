@@ -2,10 +2,11 @@ import { useState } from "react";
 import { Keyboard } from "./components/keyboard/Keyboard";
 import { MAX_WORD_LENGTH, MAX_CHALLENGES } from "./constants/settings";
 import "./App.css";
+import { Board } from "./components/board/board";
 
 function App() {
   const [currentGuess, setCurrentGuess] = useState("");
-  const [gusses, setGusses] = useState<string[]>([]);
+  const [guesses, setGuesses] = useState<string[]>([]);
 
   const onChar = (value: String) => {
     if (`${currentGuess}${value}`.length <= MAX_WORD_LENGTH) {
@@ -14,8 +15,9 @@ function App() {
   };
 
   const onEnter = () => {
+    //答えをセット
     if (currentGuess.length === MAX_WORD_LENGTH) {
-      setGusses([...gusses, currentGuess]);
+      setGuesses([...guesses, currentGuess]);
       setCurrentGuess("");
     }
   };
@@ -28,8 +30,14 @@ function App() {
     <div className="App">
       <header className="App-header"></header>
 
-      <div id="game">
-        <Keyboard onChar={onChar} onDelete={onDelete} onEnter={onEnter} gusses={gusses} />
+      <div className="game">
+        <Board guesses={guesses} currentGuess={currentGuess} />
+        <Keyboard
+          onChar={onChar}
+          onDelete={onDelete}
+          onEnter={onEnter}
+          gusses={guesses}
+        />
       </div>
     </div>
   );
