@@ -2,15 +2,23 @@ import { useCallback, useEffect, useState } from "react";
 import { Keyboard } from "./components/keyboard/Keyboard";
 import { MAX_WORD_LENGTH, MAX_CHALLENGES } from "./constants/settings";
 import "./App.css";
-import { Board } from "./components/board/board";
+import { Board } from "./components/board/Board";
+import { isWinningWord, solution } from "./lib/words";
+import { Result } from "./components/modal/Result";
 
 function App() {
   const [currentGuess, setCurrentGuess] = useState("");
   const [guesses, setGuesses] = useState<string[]>([]);
+  const [isGameWon, setIsGameWon] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const onChar = (value: String) => {
     setCurrentGuess((prev) => {
-      if (`${prev}${value}`.length <= MAX_WORD_LENGTH) {
+      if (
+        `${prev}${value}`.length <= MAX_WORD_LENGTH &&
+        guesses.length < MAX_CHALLENGES &&
+        !isGameWon
+      ) {
         return `${prev}${value}`;
       } else {
         return prev;
@@ -19,10 +27,19 @@ function App() {
   };
 
   const onEnter = () => {
+    if (isGameWon) {
+      return;
+    }
+
     //答えをセット
     if (currentGuess.length === MAX_WORD_LENGTH) {
       setGuesses((prev) => [...prev, currentGuess]);
       setCurrentGuess("");
+    }
+
+    // setIsGameWon(isWinningWord(currentGuess));
+    const winningWord = isWinningWord(currentGuess);
+    if (winningWord) {
     }
   };
 
@@ -33,7 +50,6 @@ function App() {
   const keydownFunc = useCallback(
     (e: KeyboardEvent) => {
       const { key } = e;
-      console.log(key)
       if (key === "Backspace") onDelete();
       if (key === "Enter") onEnter();
 
@@ -54,6 +70,11 @@ function App() {
     };
   }, [keydownFunc]);
 
+  
+  const handleModal = () => {
+    setShowModal(prev => !prev);
+  };
+  
   return (
     <div className="App">
       <header className="App-header"></header>
@@ -67,6 +88,7 @@ function App() {
           gusses={guesses}
         />
       </div>
+      <Result showModal={showModal} closeModal={handleModal}></Result>
     </div>
   );
 }
