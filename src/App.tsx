@@ -14,7 +14,6 @@ import { Board } from "./components/board/Board";
 import { isWinningWord, solution } from "./lib/words";
 import { Result } from "./components/modal/Result";
 import { Snackbar } from "@mui/material";
-import { Toast } from "./components/feedback/Toast";
 import { WORDS } from "./constants/wordlist";
 
 function App() {
@@ -65,6 +64,7 @@ function App() {
       setIsGameWon(true);
     }
 
+    //負け
     if (guesses.length >= MAX_CHALLENGES - 1) {
       return handleToastOpen(solution,5000);
     }
