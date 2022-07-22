@@ -1,5 +1,5 @@
 export const MAX_WORD_LENGTH = 10;
-export const MAX_CHALLENGES = 7;
+export const MAX_CHALLENGES = 6;
 
 export const WIN_MESSAGES = "You Win!";
 export const LOSS_MESSAGES = "Nice Try";
