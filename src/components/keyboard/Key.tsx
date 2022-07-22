@@ -17,9 +17,9 @@ export const Key = ({ children, value, onClick, status }: Props) => {
 
   const classes = classnames(
     "key-button",
-    { "absent": status === "absent" },
-    { "present": status === "present" },
-    { "correct": status === "correct" }
+    { absent: status === "absent" },
+    { present: status === "present" },
+    { correct: status === "correct" }
   );
 
   return (

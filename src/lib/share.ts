@@ -4,7 +4,8 @@ import { getGuessStatuses } from "./statuses";
 export const shareStatus = (guesses: string[], win: boolean) => {
   const textToShare =
     `${GAME_TITLE}  ${win ? guesses.length : "X"}/${MAX_CHALLENGES}\n\n` +
-    generateEmojiGrid(guesses);
+    generateEmojiGrid(guesses) +
+    `\n\n ${location.href}`;
 
   return textToShare;
 };

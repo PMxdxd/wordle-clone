@@ -1,14 +1,13 @@
-import { WORDS } from "../constants/wordlist";
-
 export const isWinningWord = (word: string) => {
   return solution === word;
 };
 
 const getSolution = () => {
-  const listLength = WORDS.length;
-  const randomInt = getRandomInt(listLength);
-  console.log( WORDS[randomInt].toUpperCase())
-  return WORDS[randomInt].toUpperCase();
+  const name = getRandomInt(2) === 0 ? "kevin" : "tenga-";
+  const number = ("0000" + getRandomInt(9999)).slice(-4);
+
+  console.log(`${name}${number}${name == "kevin" ? "g" : ""}`);
+  return `${name}${number}${name == "kevin" ? "g" : ""}`;
 };
 
 const getRandomInt = (max: number) => {

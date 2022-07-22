@@ -29,7 +29,7 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  width: 300,
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
@@ -66,11 +66,6 @@ function App() {
       return handleToastOpen(NOT_ENOUGH_LETTERS_MESSAGE);
     }
 
-    //存在しないワード
-    if (!WORDS.includes(currentGuess.toLowerCase())) {
-      return handleToastOpen(WORD_NOT_FOUND_MESSAGE);
-    }
-
     //答えをセット
     if (currentGuess.length === MAX_WORD_LENGTH) {
       setGuesses((prev) => [...prev, currentGuess]);
@@ -103,12 +98,12 @@ function App() {
       if (key === "Backspace") onDelete();
       if (key === "Enter") onEnter();
 
-      const upperkey = key.toUpperCase();
+      const lowerkey = key.toLowerCase();
       const canTypeKey =
-        (key.length === 1 && upperkey >= "A" && upperkey <= "Z") ||
+        (key.length === 1 && lowerkey >= "a" && lowerkey <= "z") ||
         ("0" <= key && "9" >= key) ||
         key === "-";
-      if (canTypeKey) onChar(upperkey);
+      if (canTypeKey) onChar(lowerkey);
     },
     [currentGuess]
   );
