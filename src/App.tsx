@@ -12,6 +12,7 @@ import {
   LOSS_MESSAGES,
   WIN_SUB_MESSAGES,
   LOSS_SUB_MESSAGES,
+  SHARE_CLICK_MESSAGE,
 } from "./constants/settings";
 import "./App.css";
 import { Board } from "./components/board/Board";
@@ -147,6 +148,7 @@ function App() {
   const resultCopy = () => {
     const resultText = shareStatus(guesses, isGameWon);
     navigator.clipboard.writeText(resultText);
+    handleToastOpen(SHARE_CLICK_MESSAGE);
   };
 
   const [modalOpen, setModalOpen] = useState(false);
