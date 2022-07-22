@@ -8,21 +8,40 @@ import {
   MAX_CHALLENGES,
   NOT_ENOUGH_LETTERS_MESSAGE,
   WORD_NOT_FOUND_MESSAGE,
+  WIN_MESSAGES,
+  LOSS_MESSAGES,
+  WIN_SUB_MESSAGES,
+  LOSS_SUB_MESSAGES,
 } from "./constants/settings";
 import "./App.css";
 import { Board } from "./components/board/Board";
 import { isWinningWord, solution } from "./lib/words";
-import { Result } from "./components/modal/Result";
-import { Snackbar } from "@mui/material";
+import { Button, Modal, Snackbar } from "@mui/material";
 import { WORDS } from "./constants/wordlist";
+import Backdrop from "@mui/material/Backdrop";
+import Box from "@mui/material/Box";
+import Fade from "@mui/material/Fade";
+import Typography from "@mui/material/Typography";
+import { shareStatus } from "./lib/share";
+
+const style = {
+  position: "absolute" as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
 
 function App() {
   const [currentGuess, setCurrentGuess] = useState("");
   const [guesses, setGuesses] = useState<string[]>([]);
   const [isGameWon, setIsGameWon] = useState(false);
   const [isGameLost, setIsGameLost] = useState(false);
-  const [showModal, setShowModal] = useState(false);
-
+  const [shareResultText, setShareResultText] = useState("");
   const onChar = (value: String) => {
     setCurrentGuess((prev) => {
       if (
@@ -62,11 +81,15 @@ function App() {
     const winningWord = isWinningWord(currentGuess);
     if (winningWord) {
       setIsGameWon(true);
+      handleModalOpen();
+      return;
     }
 
     //負け
     if (guesses.length >= MAX_CHALLENGES - 1) {
-      return handleToastOpen(solution,5000);
+      setIsGameLost(true);
+      handleModalOpen();
+      handleToastOpen(solution, 5000);
     }
   };
 
@@ -126,8 +149,17 @@ function App() {
     setToastInfo({ ...toastInfo, open: false });
   };
 
+  const resultCopy = () => {
+    const resultText = shareStatus(guesses, isGameWon);
+    navigator.clipboard.writeText(resultText);
+  };
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const handleModalOpen = () => setModalOpen(true);
+  const handleModalClose = () => setModalOpen(false);
+
   return (
-    <div className="App">
+    <>
       <header className="App-header"></header>
 
       <div className="game">
@@ -146,7 +178,39 @@ function App() {
         onClose={handleToastClose}
         message={toastMessage}
       />
-    </div>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={modalOpen}
+        onClose={handleModalClose}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Fade in={modalOpen}>
+          <Box sx={style}>
+            <Typography id="transition-modal-title" variant="h6" component="h2">
+              {isGameWon ? WIN_MESSAGES : LOSS_MESSAGES}
+            </Typography>
+            <Typography id="transition-modal-description" sx={{ mt: 2 }}>
+              {isGameWon ? WIN_SUB_MESSAGES : LOSS_SUB_MESSAGES}
+            </Typography>
+            <div
+              css={css`
+                display: flex;
+                justify-content: right;
+              `}
+            >
+              <Button variant="contained" onClick={() => resultCopy()}>
+                Share
+              </Button>
+            </div>
+          </Box>
+        </Fade>
+      </Modal>
+    </>
   );
 }
 
